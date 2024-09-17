@@ -72,3 +72,15 @@ jobs:
         && mkdir bld-automake && cd bld-automake
         && (../configure --host=${{matrix.host}} --with-${{matrix.api}} CPPFLAGS=${{matrix.cppflags}} || (cat config.log; false))
         && make V=1
+
+  Go:
+    runs-on: macOS-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - uses: actions/setup-go@v2
+      with:
+        go-version: '1.14'
+    - name: module
+      run: cd contrib/go/rtmidi && go test -race -short
